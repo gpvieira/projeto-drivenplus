@@ -2,12 +2,15 @@ import styled from "styled-components"
 
 const Container = styled.div`
 background-color: black;
+min-height: 600px;
 color: white;
 display: flex;
 flex-direction: column;
 align-items: center;
 justify-content: center;
-width: 1000px;
+width: 400px;
+padding-top: 30px;
+padding-bottom: 30px;
 gap: 10px;
     & > p {
         font-weight: 700;
