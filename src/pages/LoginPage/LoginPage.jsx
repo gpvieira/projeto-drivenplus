@@ -2,17 +2,52 @@ import logohome from "../../assets/logohome.png"
 import StyledInput from "../../components/StyledInput"
 import StyledButton from "../../components/StyledButton"
 import StyledLink from "../../components/StyledLink"
+import StyledForm from "../../components/StyledForm"
 import Container from "./styled"
+import { useNavigate } from "react-router-dom"
+import apiAuth from "../../services/apiAuth"
+import { useState } from "react"
+
 
 export default function LoginPage() {
+    
+    const [form, setForm] = useState({email: "", password: ""})
+    const { setUser } = useContext(UserContext)
+    const navigate = useNavigate()
+
+    function handleForm(e) {
+        setForm({...form, [e.target.name]: e.target.value})
+    }
+
+    function handleLogin(e) {
+        e.preventDefault()
+
+        apiAuth.login(form)
+            .then(res => {
+                const {id, name, token, image} = res.data
+                setUser({id, name, token, image})
+                navigate("/home")
+            })
+            .catch(err => {
+                alert(err.response.data.message)
+            })        
+    }
+
+    
     return (
         <Container>
 
         <img src={logohome} alt="Logotipo" />
-        <StyledInput placeholder="E-mail" disabled={false} />
-        <StyledInput placeholder="Senha" disabled={false} />
-        <StyledButton disabled={false}>ENTRAR</StyledButton>
-        <StyledLink>Não possui uma conta? Cadastre-se</StyledLink>
+
+        <StyledForm onSubmit={handleLogin}>
+
+            <StyledInput name="email" placeholder="E-mail" type="email" required disabled={false} value={form.email} onChange={handleForm}/>
+            <StyledInput name="password" placeholder="Senha" type="password" required disabled={false} value={form.password} onChange={handleForm}/>
+            <StyledButton type="submit" disabled={false}>ENTRAR</StyledButton>
+        
+        </StyledForm>
+
+        <StyledLink to="/sign-up">Não possui uma conta? Cadastre-se</StyledLink>
         
         </Container>
     )

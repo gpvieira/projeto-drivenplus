@@ -17,7 +17,7 @@ gap: 10px;
         font-size: 32px;
     }
 
-    & > texto {
+    & > div {
         color: white;
         display: flex;        
         flex-direction: column;
