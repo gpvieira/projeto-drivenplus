@@ -1,23 +1,33 @@
 import Container from "./styled"
 import { Link } from "react-router-dom"
 import StyledSubButton from "../../components/StyledSubButton/StyledSubButton"
-
+import { useContext, useState, useEffect } from "react"
+import { UserContext } from "../../contexts/UserContext"
+import apiSubs from "../../services/apiSubs"
 
 export default function SubsPage() {
+
+    const {user} = useContext(UserContext)
+    const [subs, setSubs] = useState([])
+
+    useEffect(getSubsList, [])
+
+    function getSubsList(){
+        apiSubs.getSubs(user.token).then(res => {setSubs(res.data) 
+            console.log(res.data)}).catch(err => {err.response.data.message})
+    }
+
     return (
         <Container>
 
-        <Link to="/subscriptions/ID_DO_PLANO">
-            <StyledSubButton />
-        </Link>   
-        
-        <Link to="/subscriptions/ID_DO_PLANO">
-            <StyledSubButton />
-        </Link>
-        
-        <Link to="/subscriptions/ID_DO_PLANO">
-            <StyledSubButton />
-        </Link>
+        <p>Escolha seu Plano</p>
+
+
+        {subs.map(s => (
+            <Link to="/subscriptions/ID_DO_PLANO">
+            <StyledSubButton key={s.id} image={s.image} price={s.price}/>
+            </Link> 
+        ))}
         
         </Container>
     )

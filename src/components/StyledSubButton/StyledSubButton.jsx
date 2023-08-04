@@ -1,12 +1,12 @@
 import BotaoPlano from "./styled";
 import logoplanobranco from "../../assets/logoplanobranco.png"
 
-export default function StyledSubButton() {
+export default function StyledSubButton({image, price}) {
 
     return (
         <BotaoPlano>
-            <img src={logoplanobranco} />
-            <p>R$ 39,99</p>
+            <img src={image} />
+            <p>{price}</p>
         </BotaoPlano>
     )
 
