@@ -4,15 +4,31 @@ import StyledLink from "../../components/StyledLink"
 import StyledForm from "../../components/StyledForm"
 import Container from "./styled"
 import { useNavigate } from "react-router-dom"
+import { useState } from "react"
 
 
 export default function SignUpPage() {
 
+    const [form, setForm] = useState({email: "", name: "", cpf: "", password: ""})
+
     const navigate = useNavigate()
 
     function handleSignUp(e) { 
+        
         e.preventDefault()
-        navigate("/")
+
+        apiAuth.signUp(form)
+        .then(res => {
+            navigate("/")
+        })
+        .catch(err => {
+            alert(err.response.data.message)
+        })
+
+    }
+
+    function handleForm(e) {
+        setForm({...form, [e.target.name]: e.target.value})
     }
 
     return (
@@ -22,11 +38,12 @@ export default function SignUpPage() {
 
         <StyledForm onSubmit={handleSignUp}>
 
-            <StyledInput placeholder="Nome" disabled={false} />
-            <StyledInput placeholder="CPF" disabled={false} />
-            <StyledInput placeholder="E-mail" disabled={false} />
-            <StyledInput placeholder="Senha" disabled={false} />
-            <StyledButton disabled={false}>CADASTRAR</StyledButton>
+            <StyledInput name="name" placeholder="Nome" type="text" required disabled={false} value={form.name} onChange={handleForm}/>
+            <StyledInput name="cpf" placeholder="CPF" type="text" required disabled={false} value={form.cpf} onChange={handleForm}/>
+            <StyledInput name="email" placeholder="E-mail" type="email" required disabled={false} value={form.email} onChange={handleForm}/>
+            <StyledInput name="password" placeholder="Senha" type="password" required disabled={false} value={form.password} onChange={handleForm}/>
+        
+            <StyledButton type="submit" disabled={false}>CADASTRAR</StyledButton>
         
         </StyledForm>    
 

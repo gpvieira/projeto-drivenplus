@@ -6,14 +6,19 @@ import StyledForm from "../../components/StyledForm"
 import Container from "./styled"
 import { useNavigate } from "react-router-dom"
 import apiAuth from "../../services/apiAuth"
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { UserContext } from "../../contexts/UserContext"
 
 
 export default function LoginPage() {
     
     const [form, setForm] = useState({email: "", password: ""})
-    const { setUser } = useContext(UserContext)
+    const { user, setUser } = useContext(UserContext)
     const navigate = useNavigate()
+
+    console.log(user)
+
+    console.log(apiAuth)
 
     function handleForm(e) {
         setForm({...form, [e.target.name]: e.target.value})
@@ -24,8 +29,9 @@ export default function LoginPage() {
 
         apiAuth.login(form)
             .then(res => {
-                const {id, name, token, image} = res.data
-                setUser({id, name, token, image})
+                console.log(res.data)
+                const {id, name, token, membership} = res.data
+                setUser({id, name, token, membership})
                 navigate("/home")
             })
             .catch(err => {
@@ -37,7 +43,7 @@ export default function LoginPage() {
     return (
         <Container>
 
-        <img src={logohome} alt="Logotipo" />
+        <img src={logohome} />
 
         <StyledForm onSubmit={handleLogin}>
 
