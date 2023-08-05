@@ -16,9 +16,6 @@ export default function LoginPage() {
     const { user, setUser } = useContext(UserContext)
     const navigate = useNavigate()
 
-    console.log(user)
-
-    console.log(apiAuth)
 
     function handleForm(e) {
         setForm({...form, [e.target.name]: e.target.value})
@@ -29,11 +26,12 @@ export default function LoginPage() {
 
         apiAuth.login(form)
             .then(res => {
-                console.log(res.data)
                 const {id, name, token, membership} = res.data
                 setUser({id, name, token, membership})
-                navigate("/home")
-            })
+                if (membership != null) { 
+                    navigate("/home")
+                } else{ navigate("/subscriptions") }
+                })
             .catch(err => {
                 alert(err.response.data.message)
             })        

@@ -5,6 +5,7 @@ import StyledForm from "../../components/StyledForm"
 import Container from "./styled"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
+import apiAuth from "../../services/apiAuth"
 
 
 export default function SignUpPage() {
@@ -19,10 +20,10 @@ export default function SignUpPage() {
 
         apiAuth.signUp(form)
         .then(res => {
-            navigate("/")
+            navigate("/home")
         })
         .catch(err => {
-            alert(err.response.data.message)
+            alert('Falha ao cadastrar usuário, tente novamente')
         })
 
     }
@@ -31,6 +32,7 @@ export default function SignUpPage() {
         setForm({...form, [e.target.name]: e.target.value})
     }
 
+    
     return (
         <Container>
 
