@@ -9,6 +9,7 @@ import { UserContext } from "./contexts/UserContext"
 
 function App() {
   const [user, setUser] = useState({})
+  const [dadosPlano, setDadosPlano] = useState({})
 
   return (
     <UserContext.Provider value={{user, setUser}}>
@@ -18,8 +19,8 @@ function App() {
           <Route path="/" element={<LoginPage />} />
           <Route path="/sign-up" element={<SignUpPage />} />
           <Route path="/subscriptions" element={<SubsPage />} />
-          <Route path="/subscriptions/ID_DO_PLANO" element={<ChosenSubPage />} />
-          <Route path="/home" element={<HomePage />} />
+          <Route path="/subscriptions/:id_do_plano" element={<ChosenSubPage dadosPlano={dadosPlano} setDadosPlano={setDadosPlano}/>} />
+          <Route path="/home" element={<HomePage  dadosPlano={dadosPlano} setDadosPlano={setDadosPlano}/>} />
         </Routes>
       
     </BrowserRouter>

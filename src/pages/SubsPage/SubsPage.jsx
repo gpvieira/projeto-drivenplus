@@ -17,7 +17,7 @@ export default function SubsPage() {
 
     function getSubsList(){
         apiSubs.getSubs(user.token).then(res => {setSubs(res.data) 
-            console.log(res.data)}).catch(err => {err.response.data.message})
+            console.log(res.data)}).catch(err => {})
     }    
 
     return (
@@ -26,7 +26,7 @@ export default function SubsPage() {
         <p>Escolha seu Plano</p>
 
         {subs.map(s => (
-            <Link to="/subscriptions/ID_DO_PLANO">
+            <Link to={`/subscriptions/${s.id}`}>
             <StyledSubButton key={s.id} image={s.image} price={s.price}/>
             </Link> 
         ))}

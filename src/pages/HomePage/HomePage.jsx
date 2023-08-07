@@ -2,22 +2,30 @@ import StyledButton from "../../components/StyledButton"
 import StyledButtonRed from "../../components/StyledButtonRed"
 import Container from "./styled"
 import logoplanobranco from "../../assets/logoplanobranco.png"
+import { UserContext } from "../../contexts/UserContext"
+import { useContext } from "react"
 
+export default function SignUpPage({dadosPlano, setDadosPlano}) {
 
-export default function SignUpPage() {
+    const {user, setUser} = useContext(UserContext)
+    
+
     return (
         <Container>
 
         <header>
-            <img src={logoplanobranco} />
+            <img src={dadosPlano.image} />
             <img src={logoplanobranco}/>
         </header>
 
-        <p>Olá, fulano</p>
+        <p>Olá, {user.name}</p>
 
         <main>
-        <StyledButton disabled={false}>Solicitar brindes</StyledButton>
-        <StyledButton disabled={false}>Materiais bônus de web</StyledButton>
+        {dadosPlano.perks.map(l => (
+            <Link to={dadosPlano.perks.link}>
+            <StyledButton>{dadosPlano.perks.title}</StyledButton>
+            </Link> 
+        ))}
         </main>
 
         <footer>

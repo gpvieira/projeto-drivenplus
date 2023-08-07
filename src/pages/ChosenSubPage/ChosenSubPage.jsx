@@ -4,31 +4,40 @@ import StyledButton from "../../components/StyledButton"
 import StyledForm from "../../components/StyledForm"
 import logoplanobranco from "../../assets/logoplanobranco.png"
 import { useNavigate } from "react-router-dom"
-import { useContext, useState } from "react"
+import { useContext, useState, useEffect } from "react"
 import apiSubs from "../../services/apiSubs"
 import { UserContext } from "../../contexts/UserContext"
+import { useParams } from "react-router-dom"
 
-export default function SubsPage() {
+export default function ChosenSubsPage({dadosPlano, setDadosPlano}) {
 
 const navigate = useNavigate()
 
+const {id_do_plano} = useParams()
+
 const {user, setUser} = useContext(UserContext)
 
-const [form, setForm] = useState({membershipId: "1", cardName: "", cardNumber: "", securityNumber: "", expirationDate: ""})
+const [form, setForm] = useState({membershipId: "", cardName: "", cardNumber: "", securityNumber: "", expirationDate: ""})
 
-console.log(user)
 
+function atribuirAssinatura(){    
+    setForm({...form, membershipId: Number(id_do_plano)})
+}
 
 function handleSub(e) {     
         
     e.preventDefault()
+    
+    atribuirAssinatura()
 
     apiSubs.signSub(form)
     .then(res => {
         navigate("/home")
+        console.log(form)
     })
     .catch(err => {
         alert('Falha ao realizar a assinatura, tente novamente')
+        console.log(form)
     })
 
 }
@@ -41,24 +50,37 @@ function handleFormNumber(e) {
     setForm({...form, [e.target.name]: Number(e.target.value)})
 }
 
+function getSubDetail(){
+    apiSubs.getSub(user.token, id_do_plano)
+        .then(res => {
+            // console.log(res.data)
+            //mudarDescricaoPlano(id_do_plano, res.data)
+            //chamar função do switch
+            //console.log(id_do_plano)
+            //console.log(divDescricao)
+            const {image, price, perks} = res.data
+            setDadosPlano({image, price, perks})
+            
+            console.log(res.data)
+        })
+        .catch(err => {
+            alert('Algo deu errado!')
+        })
+}
 
-
-
+    useEffect(() => getSubDetail(), [])
 
     return (
-        <Container>
+        <Container>        
 
-            <img src={logoplanobranco} />
-            <p>Driven Plus</p>
-            <div>
-                <p>Benefícios</p>
-                <p>1. Brindes Exclusivos</p>
-                <p>2. Materiais bonus de web</p>
-                <p>Preço:</p>
-                <p>R$ 39,99 cobrados mensalmente</p>
-            </div>
-                     
+        <img src={dadosPlano.image} />
 
+
+
+        <p>Preço:</p>
+        <p>R$ {dadosPlano.price} cobrados mensalmente</p>
+          
+        
         <StyledForm onSubmit={handleSub}>
         
             <StyledInput name="cardName" placeholder="Nome impresso no cartão" type="text" required disabled={false} value={form.cardName} onChange={handleForm}/>
@@ -73,3 +95,10 @@ function handleFormNumber(e) {
         </Container>
     )
 }
+
+/*
+<p>Benefícios:</p>
+        {dadosPlano.perks.map(b => (
+            <p>{dadosPlano.perks.id}. {dadosPlano.perks.title}</p>
+        ))}
+        */

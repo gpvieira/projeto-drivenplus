@@ -18,8 +18,11 @@ export default function SignUpPage() {
         
         e.preventDefault()
 
+        console.log(form)
+
         apiAuth.signUp(form)
         .then(res => {
+            alert('Cadastro realizado com sucesso')
             navigate("/home")
         })
         .catch(err => {
@@ -32,11 +35,8 @@ export default function SignUpPage() {
         setForm({...form, [e.target.name]: e.target.value})
     }
 
-    
     return (
-        <Container>
-
-            
+        <Container>            
 
         <StyledForm onSubmit={handleSignUp}>
 
