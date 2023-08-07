@@ -26,9 +26,7 @@ function atribuirAssinatura(){
 
 function handleSub(e) {     
         
-    e.preventDefault()
-    
-    atribuirAssinatura()
+    e.preventDefault()       
 
     apiSubs.signSub(form)
     .then(res => {
@@ -69,6 +67,7 @@ function getSubDetail(){
 }
 
     useEffect(() => getSubDetail(), [])
+    useEffect(() => atribuirAssinatura(), [])
 
     return (
         <Container>        
