@@ -9,6 +9,7 @@ import apiSubs from "../../services/apiSubs"
 import { UserContext } from "../../contexts/UserContext"
 import { useParams } from "react-router-dom"
 
+
 export default function ChosenSubsPage({dadosPlano, setDadosPlano}) {
 
 const navigate = useNavigate()
@@ -29,7 +30,7 @@ function handleSub(e) {
         
     e.preventDefault()       
 
-    apiSubs.signSub(user.token, form)
+    apiSubs.signSub(form, user.token)
     .then(res => {
         navigate("/home")
         console.log(form)
@@ -54,11 +55,6 @@ function handleFormNumber(e) {
 function getSubDetail(){
     apiSubs.getSub(user.token, id_do_plano)
         .then(res => {
-            // console.log(res.data)
-            //mudarDescricaoPlano(id_do_plano, res.data)
-            //chamar função do switch
-            //console.log(id_do_plano)
-            //console.log(divDescricao)
             const {image, price, perks} = res.data
             setDadosPlano({image, price, perks})
             
