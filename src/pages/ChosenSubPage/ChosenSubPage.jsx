@@ -73,7 +73,10 @@ function getSubDetail(){
 
         <img src={dadosPlano.image} />
 
-
+        <p>Benefícios:</p>
+        {dadosPlano.perks.map(b => (
+            <p>{dadosPlano.perks.id}. {dadosPlano.perks.title}</p>
+        ))}
 
         <p>Preço:</p>
         <p>R$ {dadosPlano.price} cobrados mensalmente</p>
