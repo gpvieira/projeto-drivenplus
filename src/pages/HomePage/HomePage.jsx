@@ -21,12 +21,10 @@ export default function SignUpPage({dadosPlano, setDadosPlano}) {
         <p>Olá, {user.name}</p>
 
         <main>
-        {dadosPlano.perks.map(l => (
-            <Link to={dadosPlano.perks.link}>
-            <StyledButton>{dadosPlano.perks.title}</StyledButton>
-            </Link> 
-        ))}
-        </main>
+        {dadosPlano.map(umItem => (<Link to={dadosPlano.perks.link}>
+        <StyledButton>{umItem.perks.title}</StyledButton>
+        </Link>))}
+        </main>        
 
         <footer>
         <StyledButton disabled={false}>Mudar plano</StyledButton>

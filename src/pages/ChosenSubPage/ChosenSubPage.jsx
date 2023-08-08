@@ -19,6 +19,7 @@ const {user, setUser} = useContext(UserContext)
 
 const [form, setForm] = useState({membershipId: "", cardName: "", cardNumber: "", securityNumber: "", expirationDate: ""})
 
+const token = user.token
 
 function atribuirAssinatura(){    
     setForm({...form, membershipId: Number(id_do_plano)})
@@ -28,14 +29,16 @@ function handleSub(e) {
         
     e.preventDefault()       
 
-    apiSubs.signSub(form)
+    apiSubs.signSub(user.token, form)
     .then(res => {
         navigate("/home")
         console.log(form)
+        console.log(user.token)
     })
     .catch(err => {
         alert('Falha ao realizar a assinatura, tente novamente')
         console.log(form)
+        console.log(user.token)
     })
 
 }

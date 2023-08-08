@@ -23,8 +23,8 @@ function getSub(token, id_do_plano){
     return promise
 }
 
-function signSub(token){
-    const promise = axios.post(BASE_URL, createConfig(token))
+function signSub(form, token){
+    const promise = axios.post(BASE_URL, form, createConfig(token))
     return promise
 }
 
